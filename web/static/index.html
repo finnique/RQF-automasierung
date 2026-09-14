@@ -235,6 +235,19 @@
     font-family: 'JetBrains Mono', ui-monospace, monospace;
     font-size: 0.85rem;
   }
+  .cost-highlight {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--ok-bg);
+    border: 1px solid var(--ok);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin: 4px 0 16px;
+  }
+  .cost-highlight .cost-icon { font-size: 1.6rem; line-height: 1; }
+  .cost-highlight .cost-value { font-size: 1.5rem; font-weight: 700; color: var(--ok); line-height: 1.2; }
+  .cost-highlight .cost-label { font-size: 0.8rem; color: var(--muted); margin-top: 2px; }
   .kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 0.9rem; }
   .kv dt { color: var(--muted); }
   .kv dd { margin: 0; }
@@ -329,11 +342,20 @@
         Verdikt: <span id="verdict-badge" class="badge"></span>
         <span class="hint" id="flags-text"></span>
       </p>
+
+      <div class="cost-highlight">
+        <span class="cost-icon">&#9889;</span>
+        <div>
+          <div class="cost-value" id="cost-value"></div>
+          <div class="cost-label">Kosten dieser Anfrage &mdash; komplette Extraktion &amp; Prüfung</div>
+        </div>
+      </div>
+
       <dl class="kv">
         <dt>Klassifikation</dt><dd id="classification"></dd>
         <dt>Begründung</dt><dd id="classification-reason"></dd>
         <dt>Kunde</dt><dd id="customer"></dd>
-        <dt>Kosten dieser Anfrage</dt><dd id="usage"></dd>
+        <dt>Details</dt><dd id="usage"></dd>
       </dl>
     </div>
 
@@ -593,8 +615,9 @@ function renderResult(data) {
   document.getElementById('customer').textContent = renderCustomer(extraction.customer);
 
   const u = data.usage;
+  document.getElementById('cost-value').textContent = u ? `$${u.cost_usd.toFixed(4)}` : '-';
   document.getElementById('usage').textContent = u
-    ? `$${u.cost_usd.toFixed(4)} -- ${u.model}, ${u.tokens_in + u.tokens_out} Tokens, ${u.latency_seconds.toFixed(1)}s`
+    ? `${u.model}, ${u.tokens_in + u.tokens_out} Tokens, ${u.latency_seconds.toFixed(1)}s`
     : '-';
 
   renderItems(verdict);
