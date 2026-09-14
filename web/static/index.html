@@ -88,6 +88,22 @@
   }
   main { max-width: 880px; margin: 0 auto; }
 
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--bg-alt);
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    border-radius: 999px;
+    transition: width 0.5s ease;
+  }
+  #progress-label { margin: 10px 0 0; }
+
   header.hero {
     display: flex;
     align-items: flex-start;
@@ -200,19 +216,6 @@
     text-underline-offset: 2px;
   }
 
-  .spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: -2px;
-    margin-right: 6px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
   .badge {
     display: inline-block;
     padding: 4px 12px;
@@ -245,13 +248,6 @@
   .kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 0.9rem; }
   .kv dt { color: var(--muted); }
   .kv dd { margin: 0; }
-  iframe.preview {
-    width: 100%;
-    height: 70vh;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: #fff;
-  }
   .error { color: var(--bad); font-weight: 600; }
   .hint { color: var(--muted); font-size: 0.85rem; }
   [hidden] { display: none !important; }
@@ -286,11 +282,11 @@
 <main>
   <header class="hero">
     <div>
-      <span class="kicker">Live-Demo &middot; LLM + regelbasierte Pruefung</span>
+      <span class="kicker">Live-Demo &middot; LLM + regelbasierte Prüfung</span>
       <h1>Angebots-Automatisierung</h1>
       <p class="sub">
         Eine deutsche Angebotsanfrage (E-Mail) wird durch die komplette
-        Automatisierung geschickt: Extraktion (LLM) &rarr; Pruefung/Katalogabgleich
+        Automatisierung geschickt: Extraktion (LLM) &rarr; Prüfung/Katalogabgleich
         (regelbasiert) &rarr; automatisches Angebot oder Weiterleitung an einen
         Menschen.
       </p>
@@ -303,7 +299,7 @@
     <p class="hint">
       Das ist der (frei erfundene) Katalog, gegen den die Extraktion jede
       Position abgleicht. Nach einem Testlauf werden hier unten die
-      tatsaechlich zugeordneten Artikel hervorgehoben.
+      tatsächlich zugeordneten Artikel hervorgehoben.
     </p>
     <div class="catalog-scroll table-scroll">
       <table id="catalog-table">
@@ -317,17 +313,21 @@
 
   <div class="panel">
     <label for="email">Angebotsanfrage (E-Mail-Text)</label>
-    <textarea id="email" placeholder="E-Mail-Text hier einfuegen, oder ein Beispiel unten laden ..."></textarea>
+    <textarea id="email" placeholder="E-Mail-Text hier einfügen, oder ein Beispiel unten laden ..."></textarea>
     <div class="row">
       <select id="examples"><option value="">Beispiel laden ...</option></select>
       <button id="submit" class="primary">Verarbeiten</button>
-      <span id="status" class="hint"></span>
     </div>
     <p class="hint">
-      Demo-Limits: begrenzte Anfragen pro Stunde und ein taegliches
+      Demo-Limits: begrenzte Anfragen pro Stunde und ein tägliches
       Gesamtbudget. Eingaben werden zur Extraktion an die OpenAI-API
       gesendet; es werden keine echten Angebote versendet.
     </p>
+  </div>
+
+  <div id="progress-panel" class="panel" hidden>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <p id="progress-label" class="hint">Anfrage wird gesendet ...</p>
   </div>
 
   <div id="error" class="panel" hidden><p class="error" id="error-text"></p></div>
@@ -341,7 +341,7 @@
       </p>
       <dl class="kv">
         <dt>Klassifikation</dt><dd id="classification"></dd>
-        <dt>Begruendung</dt><dd id="classification-reason"></dd>
+        <dt>Begründung</dt><dd id="classification-reason"></dd>
         <dt>Kunde</dt><dd id="customer"></dd>
         <dt>Kosten dieser Anfrage</dt><dd id="usage"></dd>
       </dl>
@@ -362,17 +362,18 @@
 
     <div id="offer-panel" class="panel" hidden>
       <h3 style="margin-top:0">Automatisch erstelltes Angebot</h3>
-      <iframe id="offer-frame" class="preview"></iframe>
+      <p class="hint">Das Angebot wurde als PDF erstellt.</p>
       <div class="row">
+        <button id="pdf-view" class="primary" type="button">PDF in neuem Tab öffnen</button>
         <a id="pdf-link" class="link" href="#" download="angebot.pdf">PDF herunterladen</a>
       </div>
     </div>
 
     <div id="review-panel" class="panel" hidden>
-      <h3 style="margin-top:0">Bericht fuer manuelle Pruefung</h3>
+      <h3 style="margin-top:0">Bericht für manuelle Prüfung</h3>
       <p class="hint">
-        Dieser Fall wurde nicht automatisch freigegeben und wuerde an einen
-        Menschen zur Klaerung weitergeleitet.
+        Dieser Fall wurde nicht automatisch freigegeben und würde an einen
+        Menschen zur Klärung weitergeleitet.
       </p>
       <pre id="review-text"></pre>
     </div>
@@ -419,10 +420,43 @@ themeToggleEl.addEventListener('click', () => {
 const emailEl = document.getElementById('email');
 const examplesEl = document.getElementById('examples');
 const submitEl = document.getElementById('submit');
-const statusEl = document.getElementById('status');
 const errorBox = document.getElementById('error');
 const errorText = document.getElementById('error-text');
 const resultBox = document.getElementById('result');
+const progressPanel = document.getElementById('progress-panel');
+const progressFill = document.getElementById('progress-fill');
+const progressLabel = document.getElementById('progress-label');
+
+const PROGRESS_STAGES = [
+  { pct: 12, label: 'Anfrage wird gesendet ...' },
+  { pct: 40, label: 'LLM-Extraktion läuft ...' },
+  { pct: 70, label: 'Katalogabgleich & Prüfung ...' },
+  { pct: 90, label: 'Angebot bzw. Bericht wird erstellt ...' },
+];
+let progressTimer = null;
+let currentPdfUrl = null;
+
+function startProgress() {
+  errorBox.hidden = true;
+  resultBox.hidden = true;
+  progressPanel.hidden = false;
+  progressFill.style.width = '0%';
+  let i = 0;
+  const advance = () => {
+    if (i >= PROGRESS_STAGES.length) return;
+    progressFill.style.width = PROGRESS_STAGES[i].pct + '%';
+    progressLabel.textContent = PROGRESS_STAGES[i].label;
+    i++;
+  };
+  advance();
+  progressTimer = setInterval(advance, 1500);
+}
+
+function stopProgress() {
+  if (progressTimer) { clearInterval(progressTimer); progressTimer = null; }
+  progressFill.style.width = '100%';
+  setTimeout(() => { progressPanel.hidden = true; progressFill.style.width = '0%'; }, 250);
+}
 
 fetch('/api/examples')
   .then(r => r.json())
@@ -533,7 +567,7 @@ async function submit() {
   }
 
   submitEl.disabled = true;
-  statusEl.innerHTML = '<span class="spinner"></span>Wird verarbeitet ... (kann 5-15 Sekunden dauern)';
+  startProgress();
 
   try {
     const res = await fetch('/api/process', {
@@ -551,7 +585,7 @@ async function submit() {
     errorBox.hidden = false;
   } finally {
     submitEl.disabled = false;
-    statusEl.textContent = '';
+    stopProgress();
   }
 }
 
@@ -584,11 +618,11 @@ function renderResult(data) {
 
   if (result_type === 'offer') {
     offerPanel.hidden = false;
-    document.getElementById('offer-frame').srcdoc = data.offer_html_preview;
+    if (currentPdfUrl) URL.revokeObjectURL(currentPdfUrl);
     const blob = base64ToBlob(data.pdf_base64, 'application/pdf');
-    const url = URL.createObjectURL(blob);
+    currentPdfUrl = URL.createObjectURL(blob);
     const link = document.getElementById('pdf-link');
-    link.href = url;
+    link.href = currentPdfUrl;
     link.download = `angebot_${data.reference}.pdf`;
   } else {
     reviewPanel.hidden = false;
@@ -600,6 +634,9 @@ function renderResult(data) {
 }
 
 submitEl.addEventListener('click', submit);
+document.getElementById('pdf-view').addEventListener('click', () => {
+  if (currentPdfUrl) window.open(currentPdfUrl, '_blank');
+});
 </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<title>Angebot {{ angebotsnummer }}</title>
+<title>MUSTER – Angebot {{ angebotsnummer }}</title>
 <style>
     @page {
         size: A4;
@@ -194,6 +194,8 @@
         padding-top: 6px;
         font-size: 7.4pt;
         color: #777;
+    }
+    #footer .footer-row {
         display: flex;
         justify-content: space-between;
     }
@@ -201,9 +203,48 @@
     #footer .page-num::after {
         content: "Seite " counter(page) " von " counter(pages);
     }
+
+    .watermark {
+        position: fixed;
+        top: 40%;
+        left: -10%;
+        width: 120%;
+        text-align: center;
+        font-size: 62pt;
+        font-weight: bold;
+        color: rgba(185, 28, 28, 0.14);
+        transform: rotate(-30deg);
+        z-index: 9999;
+        pointer-events: none;
+    }
+
+    .mockup-banner {
+        background: #b91c1c;
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+        font-size: 9.6pt;
+        letter-spacing: 0.03em;
+        padding: 6px 10px;
+        margin-bottom: 12px;
+    }
+
+    .mockup-footnote {
+        margin: 5px 0 0 0;
+        text-align: center;
+        font-size: 7.2pt;
+        color: #b91c1c;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
+
+<div class="watermark">MUSTER &ndash; KEIN ECHTES ANGEBOT</div>
+
+<div class="mockup-banner">
+    MUSTERDOKUMENT &ndash; automatisch erzeugt zu Demonstrationszwecken. Kein echtes Angebot, keine reale Geschäftsbeziehung.
+</div>
 
 <div class="letterhead">
     <div>
@@ -328,21 +369,24 @@
 </div>
 
 <div id="footer">
-    <div class="footer-col">
-        {{ anbieter.firma }}<br>
-        {{ anbieter.strasse }}, {{ anbieter.plz_ort }}
+    <div class="footer-row">
+        <div class="footer-col">
+            {{ anbieter.firma }}<br>
+            {{ anbieter.strasse }}, {{ anbieter.plz_ort }}
+        </div>
+        <div class="footer-col">
+            Geschäftsführer: {{ anbieter.geschaeftsfuehrer }}<br>
+            {{ anbieter.registergericht }}<br>
+            USt-IdNr.: {{ anbieter.ust_id }}
+        </div>
+        <div class="footer-col">
+            Bank: {{ anbieter.bank.name }}<br>
+            IBAN: {{ anbieter.bank.iban }}<br>
+            BIC: {{ anbieter.bank.bic }}
+        </div>
+        <div class="footer-col page-num" style="width:8%; text-align:right;"></div>
     </div>
-    <div class="footer-col">
-        Geschäftsführer: {{ anbieter.geschaeftsfuehrer }}<br>
-        {{ anbieter.registergericht }}<br>
-        USt-IdNr.: {{ anbieter.ust_id }}
-    </div>
-    <div class="footer-col">
-        Bank: {{ anbieter.bank.name }}<br>
-        IBAN: {{ anbieter.bank.iban }}<br>
-        BIC: {{ anbieter.bank.bic }}
-    </div>
-    <div class="footer-col page-num" style="width:8%; text-align:right;"></div>
+    <p class="mockup-footnote">MUSTERDOKUMENT &ndash; nur zu Demonstrationszwecken erstellt, kein echtes Angebot.</p>
 </div>
 
 </body>

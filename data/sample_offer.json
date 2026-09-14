@@ -4,31 +4,31 @@
   "gueltig_bis": "07.10.2026",
   "kunden_referenz": null,
   "kunde": {
-    "firma": "Müller Elektrotechnik GmbH",
-    "ansprechpartner": "Frau Sabine Müller",
-    "anrede_brief": "Sehr geehrte Frau Müller,",
-    "strasse": "Zeppelinstraße 8",
-    "plz_ort": "86159 Augsburg"
+    "firma": "Beispiel Metallbau GmbH",
+    "ansprechpartner": "Frau Erika Musterfrau",
+    "anrede_brief": "Sehr geehrte Frau Musterfrau,",
+    "strasse": "Beispielweg 2",
+    "plz_ort": "54321 Beispielstadt"
   },
   "lieferadresse": {
-    "strasse": "Industriestraße 12",
-    "plz_ort": "86153 Augsburg"
+    "strasse": "Lagerstraße 5",
+    "plz_ort": "54321 Beispielstadt"
   },
   "anbieter": {
-    "firma": "Elektro Komponenten Vertrieb GmbH",
-    "strasse": "Gewerbering 14",
-    "plz_ort": "70565 Stuttgart",
-    "telefon": "0711 220 45 60",
-    "email": "verkauf@ekv-vertrieb.de",
-    "web": "www.ekv-vertrieb.de",
-    "sachbearbeiter": "Herr Andreas Reimer",
-    "geschaeftsfuehrer": "Markus Weidner",
-    "registergericht": "Amtsgericht Stuttgart, HRB 745123",
-    "ust_id": "DE812345678",
+    "firma": "Musterfirma Elektrotechnik GmbH",
+    "strasse": "Musterstraße 1",
+    "plz_ort": "12345 Musterstadt",
+    "telefon": "0000 00000000",
+    "email": "kontakt@musterfirma-demo.de",
+    "web": "www.musterfirma-demo.de",
+    "sachbearbeiter": "Herr Max Mustermann",
+    "geschaeftsfuehrer": "Erika Musterfrau",
+    "registergericht": "Amtsgericht Musterstadt, HRB 000000",
+    "ust_id": "DE000000000",
     "bank": {
-      "name": "Baden-Württembergische Bank",
-      "iban": "DE12 6001 0070 0123 4567 89",
-      "bic": "SOLADEST600"
+      "name": "Musterbank",
+      "iban": "DE00 0000 0000 0000 0000 00",
+      "bic": "MUSTDEXXXXX"
     }
   },
   "freitext_einleitung": "vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:",

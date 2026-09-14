@@ -153,13 +153,13 @@ def process_email(payload: ProcessRequest, request: Request) -> dict:
             429, "Zu viele Anfragen von dieser Adresse -- bitte in einer Stunde erneut versuchen."
         )
     if not _budget_available():
-        raise HTTPException(429, "Das taegliche Demo-Limit ist erreicht -- bitte morgen wieder versuchen.")
+        raise HTTPException(429, "Das tägliche Demo-Limit ist erreicht -- bitte morgen wieder versuchen.")
 
     try:
         run = extract.extract(email_text)
     except extract.ExtractionError as exc:
         logger.warning("extraction failed: %s", exc)
-        raise HTTPException(502, "Die Extraktion ist fehlgeschlagen. Bitte spaeter erneut versuchen.")
+        raise HTTPException(502, "Die Extraktion ist fehlgeschlagen. Bitte später erneut versuchen.")
 
     _add_spend(run.cost_usd)
 

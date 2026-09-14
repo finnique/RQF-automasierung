@@ -33,7 +33,7 @@ def _customer_block(extraction: ExtractionOutput) -> str:
 def _line_item_block(pos: int, li) -> str:
     lines = [f"{pos}. [{li.match_status.value}] {li.raw_text!r}"]
     if li.candidate_article_numbers:
-        lines.append(f"   Moegliche Artikel: {', '.join(li.candidate_article_numbers)}")
+        lines.append(f"   Mögliche Artikel: {', '.join(li.candidate_article_numbers)}")
     if li.matched_article_number:
         lines.append(f"   Zuordnung: {li.matched_article_number} ({li.matched_article_name})")
     if li.quantity is not None:
@@ -67,7 +67,7 @@ def render_review_report(
 
     header = "\n".join(
         [
-            "RFQ MANUELLE PRUEFUNG ERFORDERLICH",
+            "RFQ MANUELLE PRÜFUNG ERFORDERLICH",
             "=" * 70,
             f"Referenz:      {reference}",
             f"Erstellt:      {generated_at.strftime('%Y-%m-%d %H:%M UTC')}",
@@ -80,7 +80,7 @@ def render_review_report(
             "",
             f"Klassifikation: {extraction.classification.value} "
             f"(Konfidenz {extraction.confidence:.2f})",
-            f"Begruendung:    {extraction.classification_reason}",
+            f"Begründung:    {extraction.classification_reason}",
         ]
     )
 
@@ -100,7 +100,7 @@ def render_review_report(
     if flagged:
         sections += [
             SEPARATOR,
-            "Zu klaerende Positionen",
+            "Zu klärende Positionen",
             SEPARATOR,
             "\n\n".join(_line_item_block(i, li) for i, li in flagged),
         ]
@@ -116,9 +116,9 @@ def render_review_report(
 
     sections += [
         SEPARATOR,
-        "Naechster Schritt",
+        "Nächster Schritt",
         SEPARATOR,
-        "Bitte die oben genannten Punkte pruefen/mit dem Kunden klaeren "
+        "Bitte die oben genannten Punkte prüfen/mit dem Kunden klären "
         "und die Anfrage danach manuell beantworten oder erneut durch "
         "process_rfq.py laufen lassen.",
         "",

@@ -89,7 +89,7 @@ def _review_line_item(li: ExtractedLineItem) -> LineItemReview:
             candidate_article_numbers=candidates,
             confidence=li.match_confidence,
             quantity=li.quantity,
-            issue=li.notes or "Mehrere moegliche Katalogartikel",
+            issue=li.notes or "Mehrere mögliche Katalogartikel",
         )
     return LineItemReview(
         raw_text=li.raw_text,
