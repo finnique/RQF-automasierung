@@ -205,16 +205,6 @@
   }
   button.primary:active:not(:disabled) { transform: translateY(0); }
   button.primary:disabled { opacity: 0.65; cursor: default; transform: none; }
-  button.link {
-    background: none;
-    border: none;
-    color: var(--accent);
-    cursor: pointer;
-    padding: 4px 0;
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
 
   .badge {
     display: inline-block;
@@ -365,7 +355,6 @@
       <p class="hint">Das Angebot wurde als PDF erstellt.</p>
       <div class="row">
         <button id="pdf-view" class="primary" type="button">PDF in neuem Tab öffnen</button>
-        <a id="pdf-link" class="link" href="#" download="angebot.pdf">PDF herunterladen</a>
       </div>
     </div>
 
@@ -621,9 +610,6 @@ function renderResult(data) {
     if (currentPdfUrl) URL.revokeObjectURL(currentPdfUrl);
     const blob = base64ToBlob(data.pdf_base64, 'application/pdf');
     currentPdfUrl = URL.createObjectURL(blob);
-    const link = document.getElementById('pdf-link');
-    link.href = currentPdfUrl;
-    link.download = `angebot_${data.reference}.pdf`;
   } else {
     reviewPanel.hidden = false;
     document.getElementById('review-text').textContent = data.review_report_text;
