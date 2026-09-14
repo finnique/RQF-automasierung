@@ -1,0 +1,39 @@
+artikelnummer,bezeichnung,beschreibung,einheit,einzelpreis_eur,ve
+AX-1000,"Kompaktschaltschrank 600x760x210mm","Stahlblech-Kompaktschaltschrank, RAL7035, Schutzart IP66, inkl. Montageplatte",Stk,289.50,1
+AX-1001,"Kompaktschaltschrank 800x1000x300mm","Stahlblech-Kompaktschaltschrank, RAL7035, Schutzart IP66, inkl. Montageplatte und Sockelrahmen",Stk,512.00,1
+AX-1002,"Kompaktschaltschrank 1000x2000x400mm","Standschrank, RAL7035, Schutzart IP55, ohne Montageplatte, einflügelige Tür",Stk,1240.00,1
+AX-1010,"Schaltschrank-Sockel 800x400x100mm","Sockelrahmen verzinkt, passend für Standschrank-Serie AX-10xx",Stk,89.90,1
+AX-1020,"Montageplatte verzinkt 800x1000mm","Stahlblech verzinkt, 3mm stark, für Kompaktschaltschrank 800x1000mm",Stk,64.30,1
+AX-1030,"Schaltschrank-Klimagerät 300W","Kühlleistung 300W, 230V AC, Wandeinbau, inkl. Filtermatte",Stk,445.00,1
+AX-1031,"Schaltschrank-Klimagerät 500W","Kühlleistung 500W, 230V AC, Wandeinbau, inkl. Kondensatablauf",Stk,610.00,1
+AX-1040,"Schaltschrank-Türdichtung","Ersatzdichtung EPDM, selbstklebend, Meterware, Querschnitt 6x4mm",m,8.75,10
+RK-2000,"Durchgangsklemme 2,5mm² grau","Schraubklemme für Tragschiene TS35, Nennstrom 24A, grau",Stk,0.65,50
+RK-2001,"Durchgangsklemme 4mm² grau","Schraubklemme für Tragschiene TS35, Nennstrom 32A, grau",Stk,0.85,50
+RK-2002,"Durchgangsklemme 6mm² grau","Schraubklemme für Tragschiene TS35, Nennstrom 41A, grau",Stk,1.10,50
+RK-2003,"Durchgangsklemme 10mm² grau","Schraubklemme für Tragschiene TS35, Nennstrom 57A, grau",Stk,1.65,25
+RK-2010,"Schutzleiterklemme 2,5mm² gelb-grün","PE-Klemme für Tragschiene TS35, Nennstrom 24A",Stk,0.75,50
+RK-2011,"Schutzleiterklemme 4mm² gelb-grün","PE-Klemme für Tragschiene TS35, Nennstrom 32A",Stk,0.95,50
+RK-2020,"Endplatte für Reihenklemmen 2,5mm²","Abschlussplatte grau, 2,2mm stark, für RK-2000 Serie",Stk,0.45,50
+RK-2021,"Endhalter für Tragschiene TS35","Endwinkel mit Schraube für Tragschiene TS35",Stk,0.55,50
+RK-2030,"Trennklemme 2,5mm² mit Trenntrenner","Durchgangsklemme mit steckbarem Trenntrenner, grau",Stk,1.35,50
+RK-2031,"Trennklemme 4mm² mit Trenntrenner","Durchgangsklemme mit steckbarem Trenntrenner, grau",Stk,1.60,25
+RK-2040,"Tragschiene TS35 2m verzinkt","Hutschiene 35x7,5mm, Stahl verzinkt, Länge 2m",Stk,3.20,10
+RK-2041,"Klemmenblock-Beschriftungsschild","Beschriftungsschild für Reihenklemmen, weiß, Kartenstreifen 10 Stk",Pkg,2.10,50
+SC-3000,"Leistungsschütz 9A 3-polig 230V AC","AC3 9A/4kW, Spule 230V AC, 1 Hilfsschließer",Stk,24.90,1
+SC-3001,"Leistungsschütz 12A 3-polig 230V AC","AC3 12A/5,5kW, Spule 230V AC, 1 Hilfsschließer",Stk,27.50,1
+SC-3002,"Leistungsschütz 18A 3-polig 230V AC","AC3 18A/7,5kW, Spule 230V AC, 1 Schließer 1 Öffner",Stk,34.20,1
+SC-3003,"Leistungsschütz 25A 3-polig 400V AC","AC3 25A/11kW, Spule 230V AC, 1 Schließer 1 Öffner",Stk,45.80,1
+SC-3004,"Leistungsschütz 40A 3-polig 400V AC","AC3 40A/18,5kW, Spule 230V AC, 1 Schließer 1 Öffner",Stk,78.00,1
+SC-3005,"Leistungsschütz 65A 3-polig 400V AC","AC3 65A/30kW, Spule 230V AC, 1 Schließer 1 Öffner",Stk,132.00,1
+SC-3010,"Hilfsschütz 4-polig 24V DC","4-polig, Spule 24V DC, 4 Schließer",Stk,22.10,1
+SC-3011,"Hilfsschützblock 2S2Ö","Anbauhilfsschalter, 2 Schließer 2 Öffner, aufsteckbar",Stk,12.40,1
+SC-3020,"Motorschutzschalter 1-1,6A","Einstellbereich 1-1,6A, für Motorstarter-Kombination, 3-polig",Stk,38.90,1
+SC-3021,"Motorschutzschalter 4-6,3A","Einstellbereich 4-6,3A, für Motorstarter-Kombination, 3-polig",Stk,42.50,1
+KK-4000,"Kabelkanal 25x25mm PVC grau","Elektroinstallationskanal PVC, RAL7030, Stange à 2m, mit Deckel",Stk,6.90,10
+KK-4001,"Kabelkanal 40x40mm PVC grau","Elektroinstallationskanal PVC, RAL7030, Stange à 2m, mit Deckel",Stk,9.80,10
+KK-4002,"Kabelkanal 60x60mm PVC grau","Elektroinstallationskanal PVC, RAL7030, Stange à 2m, mit Deckel",Stk,14.50,5
+KK-4003,"Kabelkanal 100x60mm PVC grau","Elektroinstallationskanal PVC, RAL7030, Stange à 2m, mit Deckel",Stk,22.90,5
+KK-4010,"Kabelkanal-Innenecke 60x60mm","Formteil PVC, RAL7030, für Kabelkanal 60x60mm",Stk,3.40,1
+KK-4011,"Kabelkanal-Außenecke 60x60mm","Formteil PVC, RAL7030, für Kabelkanal 60x60mm",Stk,3.40,1
+KK-4012,"Kabelkanal-Endstück 60x60mm","Formteil PVC, RAL7030, für Kabelkanal 60x60mm",Stk,2.10,1
+KK-4020,"Kabelbinder 200x4,8mm","Polyamid, schwarz, Zugkraft 22kg, Beutel à 100 Stk",Pkg,4.20,100

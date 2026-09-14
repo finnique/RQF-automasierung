@@ -1,0 +1,49 @@
+{
+  "angebotsnummer": "A-2026-0143",
+  "datum": "07.09.2026",
+  "gueltig_bis": "07.10.2026",
+  "kunden_referenz": null,
+  "kunde": {
+    "firma": "Müller Elektrotechnik GmbH",
+    "ansprechpartner": "Frau Sabine Müller",
+    "anrede_brief": "Sehr geehrte Frau Müller,",
+    "strasse": "Zeppelinstraße 8",
+    "plz_ort": "86159 Augsburg"
+  },
+  "lieferadresse": {
+    "strasse": "Industriestraße 12",
+    "plz_ort": "86153 Augsburg"
+  },
+  "anbieter": {
+    "firma": "Elektro Komponenten Vertrieb GmbH",
+    "strasse": "Gewerbering 14",
+    "plz_ort": "70565 Stuttgart",
+    "telefon": "0711 220 45 60",
+    "email": "verkauf@ekv-vertrieb.de",
+    "web": "www.ekv-vertrieb.de",
+    "sachbearbeiter": "Herr Andreas Reimer",
+    "geschaeftsfuehrer": "Markus Weidner",
+    "registergericht": "Amtsgericht Stuttgart, HRB 745123",
+    "ust_id": "DE812345678",
+    "bank": {
+      "name": "Baden-Württembergische Bank",
+      "iban": "DE12 6001 0070 0123 4567 89",
+      "bic": "SOLADEST600"
+    }
+  },
+  "freitext_einleitung": "vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen folgendes Angebot:",
+  "freitext_schluss": "Wir hoffen, Ihnen mit diesem Angebot dienlich zu sein und freuen uns auf Ihre Bestellung.",
+  "positionen": [
+    {"pos": 1, "artikelnummer": "AX-1001", "bezeichnung": "Kompaktschaltschrank 800x1000x300mm", "menge": 5, "einheit": "Stk", "einzelpreis": 512.00, "gesamtpreis": 2560.00},
+    {"pos": 2, "artikelnummer": "AX-1031", "bezeichnung": "Schaltschrank-Klimagerät 500W", "menge": 2, "einheit": "Stk", "einzelpreis": 610.00, "gesamtpreis": 1220.00},
+    {"pos": 3, "artikelnummer": "RK-2001", "bezeichnung": "Durchgangsklemme 4mm² grau", "menge": 50, "einheit": "Stk", "einzelpreis": 0.85, "gesamtpreis": 42.50},
+    {"pos": 4, "artikelnummer": "RK-2020", "bezeichnung": "Endplatte für Reihenklemmen 2,5mm²", "menge": 10, "einheit": "Stk", "einzelpreis": 0.45, "gesamtpreis": 4.50},
+    {"pos": 5, "artikelnummer": "RK-2040", "bezeichnung": "Tragschiene TS35 2m verzinkt", "menge": 2, "einheit": "Stk", "einzelpreis": 3.20, "gesamtpreis": 6.40}
+  ],
+  "nettosumme": 3833.40,
+  "mwst_satz": 19,
+  "mwst_betrag": 728.35,
+  "bruttosumme": 4561.75,
+  "zahlungsbedingungen": "Zahlbar innerhalb 14 Tagen ohne Abzug nach Rechnungsstellung.",
+  "lieferzeit": "Lieferung erfolgt ca. 3-4 Wochen nach Auftragseingang, sofern nicht anders vermerkt."
+}

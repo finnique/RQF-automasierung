@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    env_file: .env
+    volumes:
+      # Read-write: lets you edit data/catalog.csv or data/anbieter.json
+      # from the host without a rebuild, and data/runs.jsonl (per-call
+      # cost/usage log) persists across container restarts.
+      - ./data:/app/data
+    ports:
+      # Localhost-only: this project doesn't assume a particular
+      # reverse-proxy/HTTPS setup yet. Front this with whatever proxy you
+      # run (or change this to "8000:8000" to expose it directly).
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped

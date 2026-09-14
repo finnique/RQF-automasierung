@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Angebot {{ angebotsnummer }}</title>
+<style>
+    @page {
+        size: A4;
+        margin: 1.6cm 2cm 2.4cm 2cm;
+        @bottom-center {
+            content: element(footer);
+        }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+        font-family: "Arial", "Liberation Sans", sans-serif;
+        font-size: 10.2pt;
+        color: #1a1a1a;
+        line-height: 1.45;
+    }
+
+    .letterhead {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 2px solid #1f3d5c;
+        padding-bottom: 6px;
+        margin-bottom: 14px;
+    }
+    .letterhead .company-name {
+        font-size: 15pt;
+        font-weight: bold;
+        color: #1f3d5c;
+    }
+    .letterhead .company-sub {
+        font-size: 8.6pt;
+        color: #555;
+        margin-top: 2px;
+    }
+    .letterhead .meta-box {
+        text-align: right;
+        font-size: 9pt;
+    }
+    .letterhead .meta-box .angebot-title {
+        font-size: 12pt;
+        font-weight: bold;
+        color: #1f3d5c;
+        margin-bottom: 4px;
+    }
+
+    .address-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 16px;
+    }
+    .address-block {
+        width: 48%;
+    }
+    .address-block .label {
+        font-size: 8pt;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: #777;
+        margin-bottom: 4px;
+    }
+    .address-block .sender-line {
+        font-size: 7.6pt;
+        color: #888;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 3px;
+        margin-bottom: 6px;
+    }
+
+    .meta-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        font-size: 9.3pt;
+    }
+    .meta-table td {
+        padding: 2px 0;
+    }
+    .meta-table td.k {
+        color: #666;
+        width: 34%;
+    }
+    .meta-table td.v {
+        font-weight: bold;
+    }
+
+    h1.doc-title {
+        font-size: 13pt;
+        color: #1f3d5c;
+        margin: 0 0 8px 0;
+    }
+
+    p.intro, p.closing {
+        margin: 0 0 10px 0;
+    }
+
+    table.positions {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0 4px 0;
+        font-size: 9.3pt;
+    }
+    table.positions thead th {
+        background: #1f3d5c;
+        color: #fff;
+        text-align: left;
+        padding: 6px 6px;
+        font-weight: normal;
+        font-size: 8.6pt;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+    }
+    table.positions thead th.num { text-align: right; }
+    table.positions tbody tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    table.positions tbody td {
+        padding: 6px 6px;
+        border-bottom: 1px solid #ddd;
+        vertical-align: top;
+    }
+    table.positions tbody tr:nth-child(even) td {
+        background: #f5f7f9;
+    }
+    table.positions td.num { text-align: right; white-space: nowrap; }
+    table.positions td.pos { width: 4%; color: #666; }
+    table.positions td.art { width: 12%; font-family: "Courier New", monospace; font-size: 8.8pt; }
+    table.positions td.bez { width: 38%; }
+    table.positions td.menge { width: 10%; text-align: right; }
+    table.positions td.einheit { width: 8%; }
+    table.positions td.ep { width: 12%; }
+    table.positions td.gp { width: 12%; font-weight: bold; }
+
+    table.summary {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 4px;
+    }
+    table.summary td {
+        padding: 4px 6px;
+    }
+    table.summary td.s-label {
+        text-align: right;
+        color: #444;
+        width: 84%;
+    }
+    table.summary td.s-value {
+        text-align: right;
+        width: 16%;
+        white-space: nowrap;
+        font-family: "Courier New", monospace;
+    }
+    table.summary tr.brutto td {
+        border-top: 2px solid #1f3d5c;
+        font-weight: bold;
+        font-size: 10.8pt;
+        padding-top: 8px;
+    }
+
+    .terms {
+        margin-top: 14px;
+        font-size: 9.3pt;
+    }
+    .terms .term-row {
+        display: flex;
+        margin-bottom: 3px;
+    }
+    .terms .term-label {
+        width: 32%;
+        color: #666;
+    }
+    .terms .term-value {
+        width: 68%;
+    }
+
+    .signature {
+        margin-top: 18px;
+        font-size: 9.6pt;
+    }
+    .signature .sachbearbeiter {
+        margin-top: 16px;
+    }
+
+    #footer {
+        position: running(footer);
+        border-top: 1px solid #ccc;
+        padding-top: 6px;
+        font-size: 7.4pt;
+        color: #777;
+        display: flex;
+        justify-content: space-between;
+    }
+    #footer .footer-col { width: 32%; }
+    #footer .page-num::after {
+        content: "Seite " counter(page) " von " counter(pages);
+    }
+</style>
+</head>
+<body>
+
+<div class="letterhead">
+    <div>
+        <div class="company-name">{{ anbieter.firma }}</div>
+        <div class="company-sub">{{ anbieter.strasse }} &middot; {{ anbieter.plz_ort }}</div>
+    </div>
+    <div class="meta-box">
+        <div class="angebot-title">ANGEBOT</div>
+        Tel. {{ anbieter.telefon }}<br>
+        {{ anbieter.email }}
+    </div>
+</div>
+
+<div class="address-row">
+    <div class="address-block">
+        <div class="label">Empfänger</div>
+        <div class="sender-line">{{ anbieter.firma }} &middot; {{ anbieter.strasse }} &middot; {{ anbieter.plz_ort }}</div>
+        {{ kunde.firma }}<br>
+        {{ kunde.ansprechpartner }}<br>
+        {{ kunde.strasse }}<br>
+        {{ kunde.plz_ort }}
+    </div>
+    {% if lieferadresse %}
+    <div class="address-block">
+        <div class="label">Lieferadresse (falls abweichend)</div>
+        {{ kunde.firma }}<br>
+        {{ lieferadresse.strasse }}<br>
+        {{ lieferadresse.plz_ort }}
+    </div>
+    {% endif %}
+</div>
+
+<table class="meta-table">
+    <tr>
+        <td class="k">Angebotsnummer</td><td class="v">{{ angebotsnummer }}</td>
+        <td class="k">Datum</td><td class="v">{{ datum }}</td>
+    </tr>
+    <tr>
+        <td class="k">Ihre Anfrage / Referenz</td><td class="v">{{ kunden_referenz or "-" }}</td>
+        <td class="k">Gültig bis</td><td class="v">{{ gueltig_bis }}</td>
+    </tr>
+    <tr>
+        <td class="k">Sachbearbeiter</td><td class="v">{{ anbieter.sachbearbeiter }}</td>
+        <td class="k"></td><td class="v"></td>
+    </tr>
+</table>
+
+<h1 class="doc-title">Angebot Nr. {{ angebotsnummer }}</h1>
+
+<p class="intro">
+    {{ kunde.anrede_brief }}<br>
+    {{ freitext_einleitung }}
+</p>
+
+<table class="positions">
+    <thead>
+        <tr>
+            <th class="pos">Pos.</th>
+            <th>Artikelnr.</th>
+            <th>Bezeichnung</th>
+            <th class="num">Menge</th>
+            <th>Einheit</th>
+            <th class="num">Einzelpreis</th>
+            <th class="num">Gesamtpreis</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in positionen %}
+        <tr>
+            <td class="pos">{{ p.pos }}</td>
+            <td class="art">{{ p.artikelnummer }}</td>
+            <td class="bez">{{ p.bezeichnung }}</td>
+            <td class="menge">{{ p.menge | de_number }}</td>
+            <td class="einheit">{{ p.einheit }}</td>
+            <td class="ep">{{ p.einzelpreis | de_currency }}</td>
+            <td class="gp">{{ p.gesamtpreis | de_currency }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<table class="summary">
+    <tr>
+        <td class="s-label">Nettosumme</td>
+        <td class="s-value">{{ nettosumme | de_currency }}</td>
+    </tr>
+    <tr>
+        <td class="s-label">zzgl. {{ mwst_satz }}% MwSt.</td>
+        <td class="s-value">{{ mwst_betrag | de_currency }}</td>
+    </tr>
+    <tr class="brutto">
+        <td class="s-label">Bruttosumme</td>
+        <td class="s-value">{{ bruttosumme | de_currency }}</td>
+    </tr>
+</table>
+
+<div class="terms">
+    <div class="term-row">
+        <div class="term-label">Zahlungsbedingungen</div>
+        <div class="term-value">{{ zahlungsbedingungen }}</div>
+    </div>
+    <div class="term-row">
+        <div class="term-label">Lieferzeit</div>
+        <div class="term-value">{{ lieferzeit }}</div>
+    </div>
+    <div class="term-row">
+        <div class="term-label">Gültigkeit des Angebots</div>
+        <div class="term-value">Dieses Angebot ist gültig bis zum {{ gueltig_bis }}.</div>
+    </div>
+</div>
+
+<p class="closing" style="margin-top: 12px;">
+    {{ freitext_schluss }}
+</p>
+
+<div class="signature">
+    Mit freundlichen Grüßen
+    <div class="sachbearbeiter">
+        {{ anbieter.sachbearbeiter }}<br>
+        {{ anbieter.firma }}
+    </div>
+</div>
+
+<div id="footer">
+    <div class="footer-col">
+        {{ anbieter.firma }}<br>
+        {{ anbieter.strasse }}, {{ anbieter.plz_ort }}
+    </div>
+    <div class="footer-col">
+        Geschäftsführer: {{ anbieter.geschaeftsfuehrer }}<br>
+        {{ anbieter.registergericht }}<br>
+        USt-IdNr.: {{ anbieter.ust_id }}
+    </div>
+    <div class="footer-col">
+        Bank: {{ anbieter.bank.name }}<br>
+        IBAN: {{ anbieter.bank.iban }}<br>
+        BIC: {{ anbieter.bank.bic }}
+    </div>
+    <div class="footer-col page-num" style="width:8%; text-align:right;"></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+Betreff: Angebotsanfrage Antriebstechnik
+
+Sehr geehrte Damen und Herren,
+
+für die Erweiterung unserer Fertigungslinie bitten wir um ein Angebot über
+folgende Komponenten:
+
+- Frequenzumrichter, 7,5 kW, 400V, 3 Stück
+- SPS-Steuerung Siemens S7-1500, 1 Stück
+- Servomotor 2kW inkl. Encoder, 2 Stück
+- Industrie-PC für Maschinensteuerung, 1 Stück
+
+Bitte teilen Sie uns mit, ob diese Artikel bei Ihnen verfügbar sind und
+nennen Sie uns Preise sowie Lieferzeiten.
+
+Mit freundlichen Grüßen
+Julia Nagel
+Nagel Fertigungstechnik GmbH
+Einkauf

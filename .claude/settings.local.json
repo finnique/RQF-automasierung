@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd *)",
+      "Bash(python -c ' *)",
+      "Bash(pip show *)",
+      "Bash(pip install *)",
+      "Bash(\"/c/Users/xslee/anaconda3/condabin/conda.bat\" create *)",
+      "Bash(/c/Users/xslee/anaconda3/envs/quotegen/python.exe -c ' *)",
+      "Bash(\"/c/Users/xslee/anaconda3/condabin/conda.bat\" list *)",
+      "Bash(rm -f test_output.pdf)",
+      "Bash(mkdir -p templates output)",
+      "Bash(\"/c/Users/xslee/anaconda3/condabin/conda.bat\" install *)",
+      "Bash(python preview_html.py)",
+      "PowerShell(Start-Process \"C:\\\\LUNARRs_hideout\\\\02 Project\\\\04 Programming\\\\quote_generation_assistant\\\\output\\\\angebot_preview.html\")",
+      "WebSearch",
+      "WebFetch(domain:developers.openai.com)",
+      "WebFetch(domain:github.com)",
+      "Bash(python *)",
+      "Bash(cat)",
+      "Bash(rm .env)"
+    ]
+  }
+}

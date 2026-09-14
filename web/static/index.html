@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RFQ-Automatisierung Demo</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f4f4f2;
+    --bg-alt: #eceae5;
+    --panel: #ffffff;
+    --border: #e1ddd5;
+    --text: #1c1b19;
+    --muted: #6b675f;
+    --accent: #b5651d;
+    --accent-strong: #954f14;
+    --accent-soft: #f4e3d3;
+    --ok: #1e7d34;
+    --ok-bg: #e6f4ea;
+    --match-bg: #cdeed9;
+    --warn: #9a6700;
+    --warn-bg: #fff3cd;
+    --bad: #b3261e;
+    --bad-bg: #fbe9e7;
+    --shadow: 0 1px 2px rgba(28, 27, 25, 0.04), 0 6px 20px -8px rgba(28, 27, 25, 0.12);
+    --shadow-sm: 0 1px 2px rgba(28, 27, 25, 0.06);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171614;
+      --bg-alt: #1e1c19;
+      --panel: #232019;
+      --border: #38342c;
+      --text: #f0ede6;
+      --muted: #a49d8f;
+      --accent: #e0995a;
+      --accent-strong: #f0b27a;
+      --accent-soft: #3a2c1c;
+      --ok: #7bd88f;
+      --ok-bg: #16301f;
+      --match-bg: rgba(123, 216, 143, 0.22);
+      --warn: #e0b34a;
+      --warn-bg: #3a2f10;
+      --bad: #ff8a80;
+      --bad-bg: #3a1512;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #171614;
+    --bg-alt: #1e1c19;
+    --panel: #232019;
+    --border: #38342c;
+    --text: #f0ede6;
+    --muted: #a49d8f;
+    --accent: #e0995a;
+    --accent-strong: #f0b27a;
+    --accent-soft: #3a2c1c;
+    --ok: #7bd88f;
+    --ok-bg: #16301f;
+    --match-bg: rgba(123, 216, 143, 0.22);
+    --warn: #e0b34a;
+    --warn-bg: #3a2f10;
+    --bad: #ff8a80;
+    --bad-bg: #3a1512;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding-block: 40px 64px;
+    padding-inline: 16px;
+    background:
+      radial-gradient(1200px 420px at 50% -120px, var(--accent-soft), transparent 70%),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 880px; margin: 0 auto; }
+
+  header.hero {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .theme-toggle {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: 999px;
+    font-size: 1.05rem;
+    line-height: 1;
+    background: var(--panel);
+    box-shadow: var(--shadow-sm);
+  }
+  .theme-toggle:hover { border-color: var(--accent); }
+  .kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent-strong);
+    background: var(--accent-soft);
+    padding: 4px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+  h1 {
+    font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0 0 8px;
+  }
+  .sub { color: var(--muted); margin: 0; max-width: 62ch; }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+  h2, h3 { letter-spacing: -0.005em; }
+
+  label { font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 8px; }
+  textarea {
+    width: 100%;
+    min-height: 220px;
+    font-family: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    font-size: 0.88rem;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg-alt);
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  textarea:focus, select:focus, button:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
+  select, button {
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 9px 14px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--text);
+    transition: border-color 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  }
+  select { cursor: pointer; }
+  button { cursor: pointer; }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button.primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    font-weight: 600;
+    box-shadow: var(--shadow-sm);
+  }
+  button.primary:hover:not(:disabled) {
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
+    transform: translateY(-1px);
+  }
+  button.primary:active:not(:disabled) { transform: translateY(0); }
+  button.primary:disabled { opacity: 0.65; cursor: default; transform: none; }
+  button.link {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 4px 0;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: -2px;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .badge.ok { background: var(--ok-bg); color: var(--ok); }
+  .badge.warn { background: var(--warn-bg); color: var(--warn); }
+  .badge.bad { background: var(--bad-bg); color: var(--bad); }
+
+  .table-scroll { overflow-x: auto; margin-top: 10px; }
+  table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 0.88rem; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  tbody tr { transition: background-color 0.15s ease; }
+  tbody tr:hover { background: var(--bg-alt); }
+
+  pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.85rem;
+  }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; font-size: 0.9rem; }
+  .kv dt { color: var(--muted); }
+  .kv dd { margin: 0; }
+  iframe.preview {
+    width: 100%;
+    height: 70vh;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+  }
+  .error { color: var(--bad); font-weight: 600; }
+  .hint { color: var(--muted); font-size: 0.85rem; }
+  [hidden] { display: none !important; }
+
+  details.panel summary {
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
+  }
+  details.panel summary::-webkit-details-marker { display: none; }
+  details.panel summary::before { content: "\25b8  "; color: var(--accent); }
+  details.panel[open] summary::before { content: "\25be  "; }
+  .catalog-scroll { max-height: 360px; overflow-y: auto; margin-top: 12px; border-radius: 10px; }
+  #catalog-table tr.matched {
+    background: var(--match-bg);
+    box-shadow: inset 3px 0 0 var(--ok);
+  }
+  #catalog-table tr.matched:hover { background: var(--match-bg); }
+  #catalog-table tr.matched td:first-child { font-weight: 700; color: var(--ok); }
+
+  footer {
+    max-width: 880px;
+    margin: 32px auto 0;
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+  }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div>
+      <span class="kicker">Live-Demo &middot; LLM + regelbasierte Pruefung</span>
+      <h1>Angebots-Automatisierung</h1>
+      <p class="sub">
+        Eine deutsche Angebotsanfrage (E-Mail) wird durch die komplette
+        Automatisierung geschickt: Extraktion (LLM) &rarr; Pruefung/Katalogabgleich
+        (regelbasiert) &rarr; automatisches Angebot oder Weiterleitung an einen
+        Menschen.
+      </p>
+    </div>
+    <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Hell-/Dunkelmodus umschalten" title="Hell-/Dunkelmodus umschalten">&#127769;</button>
+  </header>
+
+  <details class="panel" id="catalog-details">
+    <summary>Produktkatalog anzeigen<span id="catalog-count"></span></summary>
+    <p class="hint">
+      Das ist der (frei erfundene) Katalog, gegen den die Extraktion jede
+      Position abgleicht. Nach einem Testlauf werden hier unten die
+      tatsaechlich zugeordneten Artikel hervorgehoben.
+    </p>
+    <div class="catalog-scroll table-scroll">
+      <table id="catalog-table">
+        <thead>
+          <tr><th>Artikelnr.</th><th>Bezeichnung</th><th>Beschreibung</th><th>Einheit</th><th>Preis</th><th>VE</th></tr>
+        </thead>
+        <tbody id="catalog-body"></tbody>
+      </table>
+    </div>
+  </details>
+
+  <div class="panel">
+    <label for="email">Angebotsanfrage (E-Mail-Text)</label>
+    <textarea id="email" placeholder="E-Mail-Text hier einfuegen, oder ein Beispiel unten laden ..."></textarea>
+    <div class="row">
+      <select id="examples"><option value="">Beispiel laden ...</option></select>
+      <button id="submit" class="primary">Verarbeiten</button>
+      <span id="status" class="hint"></span>
+    </div>
+    <p class="hint">
+      Demo-Limits: begrenzte Anfragen pro Stunde und ein taegliches
+      Gesamtbudget. Eingaben werden zur Extraktion an die OpenAI-API
+      gesendet; es werden keine echten Angebote versendet.
+    </p>
+  </div>
+
+  <div id="error" class="panel" hidden><p class="error" id="error-text"></p></div>
+
+  <div id="result" hidden>
+    <div class="panel">
+      <h2 style="margin-top:0">Ergebnis</h2>
+      <p>
+        Verdikt: <span id="verdict-badge" class="badge"></span>
+        <span class="hint" id="flags-text"></span>
+      </p>
+      <dl class="kv">
+        <dt>Klassifikation</dt><dd id="classification"></dd>
+        <dt>Begruendung</dt><dd id="classification-reason"></dd>
+        <dt>Kunde</dt><dd id="customer"></dd>
+        <dt>Kosten dieser Anfrage</dt><dd id="usage"></dd>
+      </dl>
+    </div>
+
+    <div class="panel">
+      <h3 style="margin-top:0">Positionen</h3>
+      <div class="table-scroll">
+        <table id="items-table">
+          <thead>
+            <tr><th>Text</th><th>Status</th><th>Artikel</th><th>Menge</th><th>Hinweis</th></tr>
+          </thead>
+          <tbody id="items-body"></tbody>
+        </table>
+      </div>
+      <p id="items-empty" class="hint" hidden>Keine Positionen erkannt.</p>
+    </div>
+
+    <div id="offer-panel" class="panel" hidden>
+      <h3 style="margin-top:0">Automatisch erstelltes Angebot</h3>
+      <iframe id="offer-frame" class="preview"></iframe>
+      <div class="row">
+        <a id="pdf-link" class="link" href="#" download="angebot.pdf">PDF herunterladen</a>
+      </div>
+    </div>
+
+    <div id="review-panel" class="panel" hidden>
+      <h3 style="margin-top:0">Bericht fuer manuelle Pruefung</h3>
+      <p class="hint">
+        Dieser Fall wurde nicht automatisch freigegeben und wuerde an einen
+        Menschen zur Klaerung weitergeleitet.
+      </p>
+      <pre id="review-text"></pre>
+    </div>
+  </div>
+
+  <footer>
+    Portfolio-Demo &middot; <a href="https://mattalika.de">mattalika.de</a>
+  </footer>
+</main>
+
+<script>
+const THEME_KEY = 'quotegen-theme';
+const themeToggleEl = document.getElementById('theme-toggle');
+
+function systemPrefersDark() {
+  return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+function currentTheme() {
+  return document.documentElement.dataset.theme || (systemPrefersDark() ? 'dark' : 'light');
+}
+
+function applyTheme(theme) {
+  if (theme === 'light' || theme === 'dark') {
+    document.documentElement.dataset.theme = theme;
+  } else {
+    delete document.documentElement.dataset.theme;
+  }
+  themeToggleEl.textContent = currentTheme() === 'dark' ? '☀️' : '\u{1F319}';
+}
+
+(function initTheme() {
+  let stored = null;
+  try { stored = localStorage.getItem(THEME_KEY); } catch (e) { /* private mode etc. */ }
+  applyTheme(stored);
+})();
+
+themeToggleEl.addEventListener('click', () => {
+  const next = currentTheme() === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  try { localStorage.setItem(THEME_KEY, next); } catch (e) { /* per-viewer convenience only */ }
+});
+
+const emailEl = document.getElementById('email');
+const examplesEl = document.getElementById('examples');
+const submitEl = document.getElementById('submit');
+const statusEl = document.getElementById('status');
+const errorBox = document.getElementById('error');
+const errorText = document.getElementById('error-text');
+const resultBox = document.getElementById('result');
+
+fetch('/api/examples')
+  .then(r => r.json())
+  .then(examples => {
+    for (const ex of examples) {
+      const opt = document.createElement('option');
+      opt.value = ex.text;
+      opt.textContent = `[${ex.category}] ${ex.file}`;
+      examplesEl.appendChild(opt);
+    }
+  })
+  .catch(() => { /* example list is a convenience, not critical */ });
+
+examplesEl.addEventListener('change', () => {
+  if (examplesEl.value) emailEl.value = examplesEl.value;
+});
+
+fetch('/api/catalog')
+  .then(r => r.json())
+  .then(items => {
+    document.getElementById('catalog-count').textContent = ` (${items.length} Artikel)`;
+    const body = document.getElementById('catalog-body');
+    for (const item of items) {
+      const tr = document.createElement('tr');
+      tr.dataset.artikelnummer = item.artikelnummer;
+      tr.innerHTML = `
+        <td>${escapeHtml(item.artikelnummer)}</td>
+        <td>${escapeHtml(item.bezeichnung)}</td>
+        <td>${escapeHtml(item.beschreibung)}</td>
+        <td>${escapeHtml(item.einheit)}</td>
+        <td>${item.einzelpreis_eur.toFixed(2)} &euro;</td>
+        <td>${item.ve}</td>`;
+      body.appendChild(tr);
+    }
+  })
+  .catch(() => { /* catalog view is a convenience, not critical */ });
+
+function highlightMatchedCatalogRows(verdict) {
+  const rows = document.querySelectorAll('#catalog-table tr.matched');
+  rows.forEach(r => r.classList.remove('matched'));
+  const matched = (verdict.line_item_reviews || [])
+    .filter(li => li.match_status === 'matched' && li.matched_article_number)
+    .map(li => li.matched_article_number);
+  if (!matched.length) return;
+  for (const num of matched) {
+    const row = document.querySelector(`#catalog-table tr[data-artikelnummer="${num}"]`);
+    if (row) row.classList.add('matched');
+  }
+  document.getElementById('catalog-details').open = true;
+}
+
+function badgeClass(verdict) {
+  if (verdict === 'approve') return 'ok';
+  if (verdict === 'needs_human_review') return 'warn';
+  return 'bad';
+}
+
+function renderCustomer(c) {
+  const parts = [c.company_name, c.contact_person, c.email, c.phone].filter(Boolean);
+  return parts.length ? parts.join(' -- ') : '-';
+}
+
+function renderItems(verdict) {
+  const body = document.getElementById('items-body');
+  const empty = document.getElementById('items-empty');
+  body.innerHTML = '';
+  const items = verdict.line_item_reviews || [];
+  if (!items.length) { empty.hidden = false; return; }
+  empty.hidden = true;
+  for (const li of items) {
+    const tr = document.createElement('tr');
+    const article = li.matched_article_number
+      ? `${li.matched_article_number}${li.matched_article_name ? ' -- ' + li.matched_article_name : ''}`
+      : (li.candidate_article_numbers && li.candidate_article_numbers.length
+          ? 'Kandidaten: ' + li.candidate_article_numbers.join(', ')
+          : '-');
+    tr.innerHTML = `
+      <td>${escapeHtml(li.raw_text)}</td>
+      <td>${escapeHtml(li.match_status)}</td>
+      <td>${escapeHtml(article)}</td>
+      <td>${li.quantity ?? '-'}</td>
+      <td>${escapeHtml(li.issue || '-')}</td>`;
+    body.appendChild(tr);
+  }
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function base64ToBlob(b64, mime) {
+  const bytes = atob(b64);
+  const arr = new Uint8Array(bytes.length);
+  for (let i = 0; i < bytes.length; i++) arr[i] = bytes.charCodeAt(i);
+  return new Blob([arr], { type: mime });
+}
+
+async function submit() {
+  const emailText = emailEl.value.trim();
+  errorBox.hidden = true;
+  resultBox.hidden = true;
+  if (!emailText) {
+    errorText.textContent = 'Bitte einen E-Mail-Text eingeben oder ein Beispiel laden.';
+    errorBox.hidden = false;
+    return;
+  }
+
+  submitEl.disabled = true;
+  statusEl.innerHTML = '<span class="spinner"></span>Wird verarbeitet ... (kann 5-15 Sekunden dauern)';
+
+  try {
+    const res = await fetch('/api/process', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email_text: emailText }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.detail || `Fehler (${res.status})`);
+    }
+    renderResult(data);
+  } catch (err) {
+    errorText.textContent = err.message || String(err);
+    errorBox.hidden = false;
+  } finally {
+    submitEl.disabled = false;
+    statusEl.textContent = '';
+  }
+}
+
+function renderResult(data) {
+  const { extraction, verdict, result_type } = data;
+
+  const badge = document.getElementById('verdict-badge');
+  badge.textContent = verdict.overall_verdict;
+  badge.className = 'badge ' + badgeClass(verdict.overall_verdict);
+  document.getElementById('flags-text').textContent =
+    verdict.flags && verdict.flags.length ? '(' + verdict.flags.join(', ') + ')' : '';
+
+  document.getElementById('classification').textContent =
+    `${extraction.classification} (Konfidenz ${extraction.confidence.toFixed(2)})`;
+  document.getElementById('classification-reason').textContent = extraction.classification_reason;
+  document.getElementById('customer').textContent = renderCustomer(extraction.customer);
+
+  const u = data.usage;
+  document.getElementById('usage').textContent = u
+    ? `$${u.cost_usd.toFixed(4)} -- ${u.model}, ${u.tokens_in + u.tokens_out} Tokens, ${u.latency_seconds.toFixed(1)}s`
+    : '-';
+
+  renderItems(verdict);
+  highlightMatchedCatalogRows(verdict);
+
+  const offerPanel = document.getElementById('offer-panel');
+  const reviewPanel = document.getElementById('review-panel');
+  offerPanel.hidden = true;
+  reviewPanel.hidden = true;
+
+  if (result_type === 'offer') {
+    offerPanel.hidden = false;
+    document.getElementById('offer-frame').srcdoc = data.offer_html_preview;
+    const blob = base64ToBlob(data.pdf_base64, 'application/pdf');
+    const url = URL.createObjectURL(blob);
+    const link = document.getElementById('pdf-link');
+    link.href = url;
+    link.download = `angebot_${data.reference}.pdf`;
+  } else {
+    reviewPanel.hidden = false;
+    document.getElementById('review-text').textContent = data.review_report_text;
+  }
+
+  resultBox.hidden = false;
+  resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+submitEl.addEventListener('click', submit);
+</script>
+</body>
+</html>

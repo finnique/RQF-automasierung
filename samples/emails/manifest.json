@@ -1,0 +1,23 @@
+{
+  "description": "Ground-truth labels for the sample RFQ emails. Used to evaluate the extraction and review pipeline against expected classification/verdict, not as pipeline input.",
+  "emails": [
+    {"file": "email_01_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "5 line items, all unambiguous catalog matches, delivery address + date given"},
+    {"file": "email_02_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "6 line items across Schuetze and Kabelkanal, informal tone"},
+    {"file": "email_03_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "customer reference number RFQ 2026-0817 present, formal Sie-Anrede"},
+    {"file": "email_04_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "casual tone, one item has a parenthetical customization note that should land in ExtractedLineItem.notes"},
+    {"file": "email_05_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "needs_human_review", "notes": "KK-4003 requested in meters ('40 Meter') but sold as 2m rods (Stk) -- unit conversion, not identity ambiguity; still flag for review of quantity math"},
+    {"file": "email_06_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "numbered list format, asks about alternative products as a side remark (should not block matching)"},
+    {"file": "email_07_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "customer supplies own article numbers (SC-3003, SC-3004) directly matching catalog"},
+    {"file": "email_08_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "large quantities, split delivery dates, tests handling of two delivery milestones"},
+    {"file": "email_09_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "urgency language ('Anlage steht still'), should surface in additional_notes"},
+    {"file": "email_10_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "needs_human_review", "notes": "quantities given per-filiale with an explicit x3 multiplier instruction -- tests arithmetic, not identity"},
+    {"file": "email_11_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "terse bullet list, no greeting, delivery/billing address inline in signature"},
+    {"file": "email_12_clean.txt", "category": "clean", "expected_classification": "rfq", "expected_overall_verdict": "approve", "notes": "largest clean email, mixes all four product families, tests full-catalog coverage"},
+    {"file": "email_13_ambiguous.txt", "category": "ambiguous", "expected_classification": "rfq", "expected_overall_verdict": "needs_human_review", "notes": "'4mm² Klemmen, grau' matches both RK-2001 (Durchgang) and RK-2031 (Trennklemme); 'Tragschiene, 3 Meter' doesn't evenly divide the 2m pack unit; 'Schuetze ca. 25A' under-specifies voltage/pole count"},
+    {"file": "email_14_ambiguous.txt", "category": "ambiguous", "expected_classification": "rfq", "expected_overall_verdict": "needs_human_review", "notes": "customer names a competitor's part number (Siemens 3RT2016-1BB41) and asks for equivalent -- requires a cross-reference guess, should be flagged not auto-approved"},
+    {"file": "email_15_ambiguous.txt", "category": "ambiguous", "expected_classification": "rfq", "expected_overall_verdict": "needs_human_review", "notes": "colloquial sizing ('80x100', '60er Größe') under-specifies which catalog dimension variant is meant"},
+    {"file": "email_16_not_rfq.txt", "category": "not_rfq", "expected_classification": "not_rfq", "expected_overall_verdict": "reject", "notes": "delivery complaint (Reklamation) about a past order, not a new quote request"},
+    {"file": "email_17_not_rfq.txt", "category": "not_rfq", "expected_classification": "not_rfq", "expected_overall_verdict": "reject", "notes": "unsolicited job application (Bewerbung), no product content at all"},
+    {"file": "email_18_not_in_catalog.txt", "category": "not_in_catalog", "expected_classification": "rfq", "expected_overall_verdict": "reject", "notes": "genuine RFQ intent but every line item (Frequenzumrichter, SPS, Servomotor, Industrie-PC) is outside all four catalog categories -- tests not_found matching, not classification"}
+  ]
+}

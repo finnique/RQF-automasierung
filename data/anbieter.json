@@ -1,0 +1,17 @@
+{
+  "firma": "Elektro Komponenten Vertrieb GmbH",
+  "strasse": "Gewerbering 14",
+  "plz_ort": "70565 Stuttgart",
+  "telefon": "0711 220 45 60",
+  "email": "verkauf@ekv-vertrieb.de",
+  "web": "www.ekv-vertrieb.de",
+  "sachbearbeiter": "Herr Andreas Reimer",
+  "geschaeftsfuehrer": "Markus Weidner",
+  "registergericht": "Amtsgericht Stuttgart, HRB 745123",
+  "ust_id": "DE812345678",
+  "bank": {
+    "name": "Baden-Württembergische Bank",
+    "iban": "DE12 6001 0070 0123 4567 89",
+    "bic": "SOLADEST600"
+  }
+}
